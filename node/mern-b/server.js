@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 
 const express = require("express");
@@ -8,7 +7,7 @@ const itemRoutes = require("./routes/itemRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB
 mongoose
@@ -26,12 +25,10 @@ app.use(logger);
 
 // Routes
 app.use("/", itemRoutes);
+app.use("/", authRoutes);
+app.use("/uploads", express.static("uploads"));
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
-
-app.use("/", authRoutes);
-
-app.use("/uploads", express.static("uploads"));
